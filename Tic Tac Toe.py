@@ -82,7 +82,7 @@ def computer(board):
     while current_player == "O":
         position = random.randint(0, 8)
         if board[position] == "-":
-            board[position] = 0
+            board[position] = "O"
             switchPlayer()
 
 #check for win or tie again
@@ -93,4 +93,3 @@ while gameRunning:
     checkTie(board)
     switchPlayer()  
     computer(board)
-    
