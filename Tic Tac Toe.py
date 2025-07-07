@@ -6,23 +6,25 @@ board = ["-", "-", "-",
 current_player = "X"
 winner = None
 gameRunning = True
-#game board
+
+# game board
 def printBoard(board):
     print(board[0] + " | " + board[1] + " | " + board[2])
     print("---------")
     print(board[3] + " | " + board[4] + " | " + board[5])
     print("---------")
     print(board[6] + " | " + board[7] + " | " + board[8])
-#take player input
-def playerInput(board):
-    inp = int(input("Enter a number between 1-9: "))
-    if inp >= 1 and inp <= 9 and board [inp-1] == "-":
-        board[inp-1] = current_player
+
+# take player input
+def playerInput(board, mark, player_num):
+    inp = int(input(f"Enter a number between 1-9 player {player_num}: "))
+    if inp >= 1 and inp <= 9 and board[inp-1] == "-":
+        board[inp-1] = mark
     else:
         print("Oops player is already in that spot")
-        playerInput(board)
+        playerInput(board, mark, player_num)
 
-#check for win, tie or lose
+# check for win, tie or lose
 def checkHorizontle(board):
     global winner
     if board[0] == board[1] == board[2] and board[1] != "-":
@@ -46,7 +48,7 @@ def checkRow(board):
     elif board[2] == board[5] == board[8] and board[2] != "-":
         winner = board[2]
         return True
-    
+
 def checkDiagonal(board):
     global winner
     if board[0] == board[4] == board[8] and board[0] != "-":
@@ -69,27 +71,16 @@ def checkWin():
         print(f"The winner is {winner}!")
         return True
 
-#switch the player
-def switchPlayer():
-    global current_player
-    if current_player == "X":
-        current_player = "O"
-    else:
-        current_player = "X"
-
-#computer
-def computer(board):
-    while current_player == "O":
-        position = random.randint(0, 8)
-        if board[position] == "-":
-            board[position] = "O"
-            switchPlayer()
-
-#check for win or tie again
+# main two-player game loop
 while gameRunning:
     printBoard(board)
-    playerInput(board)
-    checkWin()
-    checkTie(board)
-    switchPlayer()  
-    computer(board)
+    # Player 1 (X)
+    playerInput(board, "X", 1)
+    if checkWin() or checkTie(board):
+        break
+    printBoard(board)
+    # Player 2 (O)
+    playerInput(board, "O", 2)
+    if checkWin() or checkTie(board):
+        break
+    
