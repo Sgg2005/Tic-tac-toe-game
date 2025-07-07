@@ -69,8 +69,12 @@ def checkTie(board):
 def checkWin():
     if checkDiagonal(board) or checkHorizontle(board) or checkRow(board):
         printBoard(board)
-        print(f"The winner is {winner}!")
+        if winner == "X":
+            print("The winner is Player 1!")
+        elif winner == "O":
+            print("The winner is Player 2!")
         return True
+
 while gameRunning:
     printBoard(board)
     # Player 1 (X)
