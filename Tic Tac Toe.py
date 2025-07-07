@@ -1,5 +1,4 @@
-import random
-
+# Tic Tac Toe Game
 board = ["-", "-", "-",
          "-", "-", "-",
          "-", "-", "-"]
@@ -60,27 +59,29 @@ def checkDiagonal(board):
 
 def checkTie(board):
     global gameRunning
-    if "-" not in board:
+    if "-" not in board and winner is None:
         printBoard(board)
         print("It's a tie!")
         gameRunning = False
+        return True
+    return False
 
 def checkWin():
     if checkDiagonal(board) or checkHorizontle(board) or checkRow(board):
         printBoard(board)
         print(f"The winner is {winner}!")
         return True
-
-# main two-player game loop
 while gameRunning:
     printBoard(board)
     # Player 1 (X)
     playerInput(board, "X", 1)
-    if checkWin() or checkTie(board):
+    if checkTie(board) or checkWin():
         break
     printBoard(board)
     # Player 2 (O)
     playerInput(board, "O", 2)
+    if checkTie(board) or checkWin():
+        break
     if checkWin() or checkTie(board):
         break
     
