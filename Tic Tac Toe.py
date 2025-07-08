@@ -2,9 +2,17 @@
 board = ["-", "-", "-",
          "-", "-", "-",
          "-", "-", "-"]
-current_player = "X"
 winner = None
 gameRunning = True
+
+# Get custom symbols from players
+player1_symbol = input("Player 1, choose your symbol: ")
+while len(player1_symbol) != 1 or player1_symbol == "-":
+    player1_symbol = input("Invalid symbol. Choose a single character (not '-'): ")
+
+player2_symbol = input("Player 2, choose your symbol: ")
+while len(player2_symbol) != 1 or player2_symbol == "-" or player2_symbol == player1_symbol:
+    player2_symbol = input("Invalid symbol. Choose a different single character (not '-'): ")
 
 # game board
 def printBoard(board):
@@ -61,7 +69,7 @@ def checkTie(board):
     global gameRunning
     if "-" not in board and winner is None:
         printBoard(board)
-        print("It's a tie!")
+        print("It's a tie! no one wins")
         gameRunning = False
         return True
     return False
@@ -69,23 +77,20 @@ def checkTie(board):
 def checkWin():
     if checkDiagonal(board) or checkHorizontle(board) or checkRow(board):
         printBoard(board)
-        if winner == "X":
+        if winner == player1_symbol:
             print("The winner is Player 1!")
-        elif winner == "O":
+        elif winner == player2_symbol:
             print("The winner is Player 2!")
         return True
 
 while gameRunning:
     printBoard(board)
-    # Player 1 (X)
-    playerInput(board, "X", 1)
+    # Player 1
+    playerInput(board, player1_symbol, 1)
     if checkTie(board) or checkWin():
         break
     printBoard(board)
-    # Player 2 (O)
-    playerInput(board, "O", 2)
+    # Player 2
+    playerInput(board, player2_symbol, 2)
     if checkTie(board) or checkWin():
         break
-    if checkWin() or checkTie(board):
-        break
-    
