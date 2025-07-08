@@ -1,4 +1,14 @@
-#tic Tac Toe Game with Custom Symbols
+# Get player names and custom symbols
+player1_name = input("Player 1, enter your name: ")
+player1_symbol = input(f"{player1_name}, choose your symbol: ")
+while len(player1_symbol) != 1 or player1_symbol == "-":
+    player1_symbol = input("Invalid symbol. Choose a single character (not '-'): ")
+
+player2_name = input("Player 2, enter your name: ")
+player2_symbol = input(f"{player2_name}, choose your symbol: ")
+while len(player2_symbol) != 1 or player2_symbol == "-" or player2_symbol == player1_symbol:
+    player2_symbol = input("Invalid symbol. Choose a different single character (not '-'): ")
+
 def play_game():
     board = ["-", "-", "-",
              "-", "-", "-",
@@ -14,13 +24,13 @@ def play_game():
         print("---------")
         print(board[6] + " | " + board[7] + " | " + board[8])
 
-    def playerInput(board, mark, player_num):
-        inp = int(input(f"Enter a number between 1-9 player {player_num}: "))
+    def playerInput(board, mark, player_name):
+        inp = int(input(f"{player_name}, enter a number between 1-9: "))
         if inp >= 1 and inp <= 9 and board[inp-1] == "-":
             board[inp-1] = mark
         else:
-            print("Oops player is already in that spot")
-            playerInput(board, mark, player_num)
+            print("Oops, that spot is already taken or invalid.")
+            playerInput(board, mark, player_name)
 
     def checkHorizontle(board):
         global winner
@@ -59,7 +69,7 @@ def play_game():
         global gameRunning
         if "-" not in board and winner is None:
             printBoard(board)
-            print("It's a tie! no one wins")
+            print("It's a tie! No one wins.")
             gameRunning = False
             return True
         return False
@@ -68,31 +78,22 @@ def play_game():
         if checkDiagonal(board) or checkHorizontle(board) or checkRow(board):
             printBoard(board)
             if winner == player1_symbol:
-                print("The winner is Player 1!")
+                print(f"The winner is {player1_name}!")
             elif winner == player2_symbol:
-                print("The winner is Player 2!")
+                print(f"The winner is {player2_name}!")
             return True
 
     while gameRunning:
         printBoard(board)
         # Player 1
-        playerInput(board, player1_symbol, 1)
+        playerInput(board, player1_symbol, player1_name)
         if checkTie(board) or checkWin():
             break
         printBoard(board)
         # Player 2
-        playerInput(board, player2_symbol, 2)
+        playerInput(board, player2_symbol, player2_name)
         if checkTie(board) or checkWin():
             break
-
-# Get custom symbols from players (outside the loop)
-player1_symbol = input("Player 1, choose your symbol: ")
-while len(player1_symbol) != 1 or player1_symbol == "-":
-    player1_symbol = input("Invalid symbol. Choose a single character (not '-'): ")
-
-player2_symbol = input("Player 2, choose your symbol: ")
-while len(player2_symbol) != 1 or player2_symbol == "-" or player2_symbol == player1_symbol:
-    player2_symbol = input("Invalid symbol. Choose a different single character (not '-'): ")
 
 while True:
     play_game()
