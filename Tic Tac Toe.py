@@ -214,7 +214,6 @@ def play_game(mode):
             playerInput(board, player2_symbol, player2_name)
         if checkTie(board) or checkWin(board, player1_symbol, player2_symbol, player1_name, player2_name):
             break
-
 while True:
     print("Choose game mode:")
     print("1. Player vs Player")
@@ -224,7 +223,11 @@ while True:
         print("Invalid choice.")
         continue
     play_game(mode)
-    replay = input("Do you want to play again? (y/n): ").lower()
+    while True:
+        replay = input("Do you want to play again? (y/n): ").lower()
+        if replay in ("y", "n"):
+            break
+        print("Invalid input. Please enter 'y' or 'n'.")
     if replay != "y":
         print("Thanks for playing!")
         break
